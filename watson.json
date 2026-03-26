@@ -1,0 +1,128 @@
+{
+  "name": "Assistente Cardiologico Refinado",
+  "language": "pt-br",
+  "description": "Protótipo funcional com tratamento de falsos positivos para sintomas.",
+  "intents": [
+    {
+      "intent": "emergencia_cardiaca",
+      "examples": [
+        {"text": "Estou com muita dor no peito"},
+        {"text": "O meu peito está a apertar e o braço a formigar"},
+        {"text": "Estou com falta de ar grave e dor no coração"},
+        {"text": "Acho que estou a enfartar"}
+      ]
+    },
+    {
+      "intent": "agendar_exame",
+      "examples": [
+        {"text": "Preciso de marcar um eletrocardiograma"},
+        {"text": "Quero agendar um ecocardiograma"},
+        {"text": "Preciso de fazer o meu risco cirúrgico"},
+        {"text": "Quero colocar um holter"}
+      ]
+    },
+    {
+      "intent": "duvida_pressao",
+      "examples": [
+        {"text": "A minha pressão está 15 por 9, o que faço?"},
+        {"text": "Estou com a pressão alta hoje"},
+        {"text": "Pressão baixa é perigoso?"}
+      ]
+    },
+    {
+      "intent": "duvida_sintomas",
+      "examples": [
+        {"text": "Como saber se tenho algum sintoma de doença cardiológica?"},
+        {"text": "Quais são os sinais de problema no coração?"},
+        {"text": "Quais os sintomas de um infarto?"},
+        {"text": "Como identificar uma doença cardíaca?"},
+        {"text": "O que a pessoa sente quando tem problema no coração?"}
+      ]
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "dialog_node": "node_welcome",
+      "conditions": "welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "Olá! Sou o Assistente Cardiológico Virtual. Posso ajudar a agendar os seus exames do coração, tirar dúvidas sobre pressão arterial ou sintomas. Como posso ajudar agora?"}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Bem-vindo"
+    },
+    {
+      "dialog_node": "node_emergencia",
+      "conditions": "#emergencia_cardiaca",
+      "previous_sibling": "node_welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "⚠️ ALERTA: Pelos sintomas que descreveu (dor no peito/aperto), isto pode ser uma emergência médica. Por favor, interrompa este chat e dirija-se IMEDIATAMENTE às urgências mais próximas ou ligue para o 112/192."}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Triagem de Emergência"
+    },
+    {
+      "dialog_node": "node_exames",
+      "conditions": "#agendar_exame",
+      "previous_sibling": "node_emergencia",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "Para exames cardiológicos (como Eletrocardiograma, Ecocardiograma ou Holter), a nossa agenda está disponível. Aceda ao portal do doente para escolher o melhor horário. Posso ajudar com mais alguma dúvida?"}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Agendamento de Exames"
+    },
+    {
+      "dialog_node": "node_pressao",
+      "conditions": "#duvida_pressao",
+      "previous_sibling": "node_exames",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "Variações na pressão arterial precisam de acompanhamento. Se a sua pressão estiver consistentemente acima de 14x9, deite-se, tente relaxar e meça novamente em 30 minutos. Se não baixar ou vier acompanhada de dor na nuca ou no peito, procure um pronto-atendimento. Deseja agendar uma consulta com o cardiologista para avaliar isto?"}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Dúvidas de Pressão"
+    },
+    {
+      "dialog_node": "node_duvida_sintomas",
+      "conditions": "#duvida_sintomas",
+      "previous_sibling": "node_pressao",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "Os sintomas mais comuns de problemas cardíacos incluem: dor ou aperto no peito, falta de ar inexplicável, palpitações fortes, tontura frequente ou inchaço nas pernas. Você está a sentir algum destes sintomas de forma intensa neste exato momento? Se sim, por favor, avise-me."}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Dúvida sobre Sintomas Gerais"
+    },
+    {
+      "dialog_node": "node_anything_else",
+      "conditions": "anything_else",
+      "previous_sibling": "node_duvida_sintomas",
+      "output": {
+        "generic": [
+          {
+            "values": [{"text": "Desculpe, não compreendi. O meu foco é estritamente em saúde cardiovascular e agendamentos de exames. Pode tentar usar outras palavras?"}],
+            "response_type": "text"
+          }
+        ]
+      },
+      "title": "Fallback"
+    }
+  ]
+}
